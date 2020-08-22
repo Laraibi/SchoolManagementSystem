@@ -16,7 +16,7 @@ class StudentParentController extends Controller
     public function index()
     {
         //
-        $StudentParents = StudentParent::all();
+        $StudentParents = StudentParent::paginate(5);
         return view("studentparent/index", compact("StudentParents"));
     }
 
@@ -41,7 +41,7 @@ class StudentParentController extends Controller
         //
         $StudentParent = new StudentParent($request->all());
         $StudentParent->save();
-        $StudentParents = StudentParent::all();
+        $StudentParents = StudentParent::paginate(5);
         return view("studentparent/index", compact("StudentParents"));
         
     }
@@ -68,7 +68,7 @@ class StudentParentController extends Controller
         //
 
         $SelectedParent=StudentParent::find($id);
-        $StudentParents = StudentParent::all();
+        $StudentParents = StudentParent::paginate(5);
         return view("studentparent/index", compact("StudentParents","SelectedParent"));
 
 
@@ -88,7 +88,7 @@ class StudentParentController extends Controller
         $Parent->FirstName=$request->FirstName;
         $Parent->SecondName=$request->SecondName;
         $Parent->save();
-        $StudentParents = StudentParent::all();
+        $StudentParents = StudentParent::paginate(5);
         return view("studentparent/index", compact("StudentParents"));
 
     }
@@ -104,7 +104,7 @@ class StudentParentController extends Controller
         //
         $Parent=StudentParent::find($id);
         $Parent->delete();
-        $StudentParents = StudentParent::all();
+        $StudentParents = StudentParent::paginate(5);
         return view("studentparent/index", compact("StudentParents"));
     }
 }

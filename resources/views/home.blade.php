@@ -1,17 +1,17 @@
 @extends('layouts.SmsDash')
 <style>
-.small-box .inner p {
-    font-size:2rem;
-}
+    .small-box .inner p {
+        font-size: 2rem;
+    }
 
 </style>
 @section('content')
-<div class="row mb-4">
-    <div class="col-12 justify-content-center">
-        <h2 class="text-center">Systeme de Gestion D'Ecole</h2>
+    <div class="row mb-4">
+        <div class="col-12 justify-content-center">
+            <h2 class="text-center">Systeme de Gestion D'Ecole</h2>
+        </div>
+
     </div>
-    
-</div>
     <div class="row mb-2">
         {{-- <div class="card">
             <div class="card-header">{{ __('Dashboard') }}</div>
@@ -91,12 +91,32 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
 @endsection
 @section('scripts')
 
     <script type="text/javascript">
         $(document).ready(function() {
+            var ctx = $('#myChart');
+            data = {
+                datasets: [{
+                    data: [10, 20, 30]
+                }],
 
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    'Red',
+                    'Yellow',
+                    'Blue'
+                ]
+            };
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
+            });
             $(".nav-link").eq(0).addClass("active");
         });
 

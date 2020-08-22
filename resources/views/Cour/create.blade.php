@@ -30,11 +30,11 @@
     <div id="hasfileForm">
         <div class="form-group">
             {{ Form::label('FileName', 'Nom Du Fichier :') }}
-            {{ Form::text('FileName', '', ['class' => 'form-control','disabled'=>'disabled']) }}
+            {{ Form::text('FileName1', '', ['class' => 'form-control','disabled'=>'disabled']) }}
         </div>
         <div class="form-group">
             <div class="custom-file">
-                <input disabled type="file" name="CourseFile" class="custom-file-input" id="CourseFile">
+                <input disabled type="file" name="CourseFile1" class="custom-file-input" id="CourseFile">
                 <label class="custom-file-label" for="CourseFile">Fichier du Cour :</label>
             </div>
         </div>

@@ -116,7 +116,7 @@
                 var count = $("#hasfileForm #CourseFile").length;
                 // alert(count);
                 var html1 = $("#hasfileForm .form-group").eq(0).clone();
-                var newname = $(html1).children('input').attr('name') + (count + 1);
+                var newname = $(html1).children('input').attr('name').substring(0,8)  + (count + 1);
                 $(html1).children('input').attr('name', newname);
                 // $("#hasfileForm").append(html);
                 if (count == 1) {
@@ -125,11 +125,10 @@
                     $(html1).insertAfter($("#hasfileForm .btn").eq(count - 2));
                 }
                 var html2 = $("#hasfileForm .form-group").eq(1).clone();
-                var newname = $(html2).children('div').children('input').attr('name') + (count + 1);
+                var newname = $(html2).children('div').children('input').attr('name').substring(0,10) + (count + 1);
                 $(html2).children('div').children('input').attr('name', newname);
                 $(html2).insertAfter(html1)
-                var btnremove =
-                    "<button  type=\"button\" class=\"btnremove btn btn-danger w-50 m-auto\">Supprimer</button>";
+                var btnremove = "<button  type=\"button\" class=\"btnremove btn btn-danger w-50 m-auto\">Supprimer</button>";
                 $(btnremove).insertAfter(html2);
                 $(".btnremove").click(function(){
                     $(this).prev().remove();

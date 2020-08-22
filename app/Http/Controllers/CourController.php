@@ -40,8 +40,21 @@ class CourController extends Controller
     public function store(Request $request)
     {
         //
+
+
         $cour=new Cour($request->all());
         $cour->save();
+        if( $request->hasfiles){
+            // dd( $request->allFiles());  
+            $count= count($request->allFiles() );
+           for ($i=1;$i<=$count;$i++ ){
+               if($request->hasFile('CourseFile'.$i)){
+                //echo $request->file("CourseFile".$i)->getClientOriginalName();
+                $CourseFile=$request->file("CourseFile".$i);
+                $CourseFile->storeAs('Public/CourseFiles/' . $cour->Name . "_Files/" , $CourseFile->getClientOriginalName() );
+               }
+           }
+        };
         $Cours=Cour::paginate(5);
         $Matieres=Matiere::all();
         return view("Cour.index",compact("Cours","Matieres"));
