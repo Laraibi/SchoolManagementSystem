@@ -137,6 +137,22 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('Examens.index') }}" class="nav-link">
+                                    <i class="fas fa-scroll"></i>
+                                    <p>
+                                        Examens
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('Seances.index') }}" class="nav-link">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <p>
+                                        Plannings
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->

@@ -17,4 +17,7 @@ class Matiere extends Model
     public function Cours(){
         return $this->hasMany("App\Cour");
     }
+    public function Examens(){
+        return $this->hasMany("App\Examen");
+    }
 }
