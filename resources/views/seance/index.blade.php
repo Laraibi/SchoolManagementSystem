@@ -352,7 +352,25 @@
                     data: SeanceData,
                     success: function(data) {
 
-
+                        if (data.Type == "Success") {
+                            var html = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                Seance Ajoutee
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>`;
+                           $('.modal-body').prepend(html);
+                        //    alert(html);
+                        } else {
+                            var html = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                Seance Non Ajoutee
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>`;
+                            $('.modal-body').prepend(html);
+                            // alert(html);
+                        }
 
                     }
                 });

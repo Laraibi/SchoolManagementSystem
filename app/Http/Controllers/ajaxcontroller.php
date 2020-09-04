@@ -110,8 +110,7 @@ class ajaxcontroller extends Controller
         if ($request->ajax()) {
             $seance=new Seance($request->all());
             $seance->save();
-            return response()->json(["Msg" => 'Seance Added']);
-
+            return response()->json(["Type"=>"Success","Msg" => 'Seance Added']);
         }
     }
 }
