@@ -36,7 +36,7 @@
                 <form id="FormClasseWeekSelect" method="post" action=".">
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Classe :</label>
-                        <select name="Classe_ID" class="form-control d-inline">
+                        <select id="Classe_ID" name="Classe_ID" class="form-control d-inline">
                             {{-- <option>Classe 1</option> --}}
                             @isset($Classes)
                                 @foreach ($Classes as $Classe)
@@ -89,7 +89,6 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            {{ Form::open() }}
                             @csrf
                             <div class="modal-body">
 
@@ -117,7 +116,12 @@
                                         @endisset
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="Prof_ID">Professeur :</label>
+                                    <select name="Prof_ID" id="Prof_ID" class="form-control" disabled>
 
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="Type_ID">Cour/Examen :</label>
                                     <select name="Type_ID" id="Type_ID" class="form-control" disabled>
@@ -138,16 +142,14 @@
                                 <div class="form-group">
                                     <label for="Creneau">Creneau :</label>
                                     <select name="Creneau" id="Creneau" class="form-control" disabled>
-                                        <option value="">Matin</option>
-                                        <option value="">Apres-Midi</option>
+                                        <option value="Matin">Matin</option>
+                                        <option value="Soir">Apres-Midi</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" id="btnAddSeance" class="btn btn-primary">Ajouter Seance</button>
                             </div>
-                            {{ Form::close() }}
                         </div>
                     </div>
                 </div>
@@ -163,38 +165,38 @@
                         <tbody>
                             <tr class="tr" id="tr_Lundi">
                                 <td>Lundi</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
-                            <tr class="tr" id="Mardi">
+                            <tr class="tr" id="tr_Mardi">
                                 <td>Mardi</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                             <tr class="tr" id="tr_Mercredi">
                                 <td>Mercredi</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                             <tr class="tr" id="tr_Jeudi">
                                 <td>Jeudi</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                             <tr class="tr" id="tr_Vendredi">
                                 <td>Vendredi</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                             <tr class="tr" id="tr_Samedi">
-                                <td>Samedi</td>
-                                <td></td>
-                                <td></td>
+                                <td>Vendredi</td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                             <tr class="tr" id="tr_Dimanche">
                                 <td>Dimanche</td>
-                                <td></td>
-                                <td></td>
+                                <td class="Creneau_Matin"></td>
+                                <td class="Creneau_Soir"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -238,23 +240,38 @@
                     dataType: 'json',
                     data: $("#FormClasseWeekSelect").serialize(),
                     success: function(data) {
-                        // console.log(data.Classe_ID);
                         // Recupeter les Seances de la Semaine Selctionner et les Afficher sur la table..
-
+                        $("td.Creneau_Matin,td.Creneau_Soir").html("");
                         $("#PlanningArea").slideDown('slow');
-                        // alert(data.DateBeginWeek);
-                        // $("#SelectedClasse").html(data.Classe_Name);
-                        // $("#SelectedWeek").html(data.DateBeginWeek);
-                        // alert(typeof(data));
-                        var jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+                        $("#SelectedClasse").html(data[0].Classe_Name);
+                        $("#SelectedWeek").html(data[0].WeekNumber);
 
-                        alert(data.length);
-                        // for (i = 0; i < data.length; i++) {
-                        //     var jour =new Date(data[i].DateSeance);
-                        //     $('#myarea').append("<p>" + data[i].id + " " + data[i].Creneau +
-                        //         " "+ jours[jour.getDay()] +" "+data[i].Matiere
-                        //         +"</p>");
-                        // }
+
+                        var DateBeginWeek = new Date(data[0].DateBeginWeek);
+
+                        for (y = 0; y <= 6; y++) {
+                            // alert(y);
+
+                            var datevalue = DateBeginWeek.getFullYear() + "/" + (DateBeginWeek
+                                .getMonth() + 1) + "/" + (DateBeginWeek.getDate());
+                            $("select#Jour option").eq(y).attr("value", datevalue);
+                            DateBeginWeek.setDate(DateBeginWeek.getDate() + 1);
+                        }
+
+                        var jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi",
+                            "Vendredi", "Samedi"
+                        ];
+                        for (i = 1; i < data.length; i++) {
+                            var jour = new Date(data[i].DateSeance);
+                            var html = "<span class=\"badge bg-warning\">" + data[i].Type +
+                                "</span>";
+                            html += "<span class=\"badge bg-primary\">" + data[i].Matiere +
+                                "</span>";
+                            html += "<span class=\"badge bg-info\">" + data[i].TypeObjectName +
+                                "</span>";
+                            $("#tr_" + jours[jour.getDay()] + " td.Creneau_" + data[i].Creneau)
+                                .html(html);
+                        }
                     }
                 });
             });
@@ -263,9 +280,15 @@
                 var radioValue = $("input[name='SeanceType']:checked").val();
                 var MatiereID = $('#Matiere_ID').val();
                 var mydata = {
-                    "Type": radioValue,
-                    "MatiereID": MatiereID
-                };
+                    Type: radioValue,
+                    MatiereID: MatiereID
+                }
+                var token = $('input[name="_token"]').attr('value');
+                $.ajaxSetup({
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Csrf-Token', token);
+                    }
+                });
 
                 $.ajax({
                     type: 'GET',
@@ -273,9 +296,64 @@
                     data: mydata,
                     success: function(data) {
                         $("#Type_ID").removeAttr("disabled");
-                        // alert(data);
+                        $("#Jour").removeAttr("disabled");
+                        $("#Creneau").removeAttr("disabled");
+                        $("#Prof_ID").removeAttr("disabled");
+
+                        $("#Prof_ID option").remove();
                         $("#Type_ID option").remove();
-                        $("#Type_ID").append(data);
+
+
+                        var Teachers = data.Teachers;
+                        for (i = 0; i < Teachers.length; i++) {
+                            var html = "<option value=\"" + Teachers[i].TeacherId + "\">" +
+                                Teachers[i].TeacherName + "</option>";
+                            $("#Prof_ID").append(html);
+
+                            // alert(html);
+                        }
+
+                        var CoursesOrExam = data.CoursesOrExam;
+                        for (i = 0; i < CoursesOrExam.length; i++) {
+                            var html = "<option value=\"" + CoursesOrExam[i].CourseId + "\">" +
+                                CoursesOrExam[i].CourseName + "</option>";
+                            $("#Type_ID").append(html);
+                        }
+                        // $("#Type_ID").append(data);
+                    }
+                });
+            });
+
+
+            $("#btnAddSeance").on("click", function() {
+                //"Matiere_id","Classe_id","Teacher_id","Salle_id","Type_id","Type","DateSeance","Creneau"
+                var SeanceData = {
+                    Classe_id: $('#Classe_ID').val(),
+                    Matiere_id: $('#Matiere_ID').val(),
+                    Teacher_id: $('#Prof_ID').val(),
+                    Salle_id: 1,
+                    Type_id: $('#Type_ID').val(),
+                    Type: $("input[name='SeanceType']:checked").val(),
+                    DateSeance: $("select#Jour").val(),
+                    Creneau: $('#Creneau').val()
+                }
+
+
+                var token = $('input[name="_token"]').attr('value');
+                $.ajaxSetup({
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Csrf-Token', token);
+                    }
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('addSeance') }}",
+                    data: SeanceData,
+                    success: function(data) {
+
+
+
                     }
                 });
             });

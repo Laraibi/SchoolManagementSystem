@@ -52,11 +52,9 @@ Route::get('/Classe/{class_id}/removeStudent/{student_id}', "ClasseController@re
 
 Route::get("/getPlanningClasse", "ajaxcontroller@getPlanningClasse")->name("getPlanningClasse");
 Route::get("/getMatiereCoursesOrExams", "ajaxcontroller@getMatiereCoursesOrExams")->name("getMatiereCoursesOrExams");
+Route::get("/addSeance", "ajaxcontroller@addSeance")->name("addSeance");
 
-// Route::get('/testStroage',function(){
-//     $url=storage_path('StudentImages/Student_5.jpeg');
-//     return $url;
-// });
+
 
 route::get("/test", function () {
     $Classe = Classe::find(2);

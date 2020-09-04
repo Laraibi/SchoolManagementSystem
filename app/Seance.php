@@ -8,6 +8,11 @@ class Seance extends Model
 {
     //
 
+
+    protected $fillable = [
+       "Matiere_id","Classe_id","Teacher_id","Salle_id","Type_id","Type","DateSeance","Creneau"
+    ];
+    
     public function Classe(){
         return $this->belongsTo("App\Classe"."Classe_id");
     }

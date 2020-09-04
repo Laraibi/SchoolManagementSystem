@@ -27,6 +27,6 @@ class Classe extends Model
         // return $this->Seances()->where("DateSeance")
         $date = Carbon::now(); // or $date = new Carbon();
         $date->setISODate($Year, $NumSemaine); // 2016-10-17 23:59:59.000000
-        return $this->Seances->where("DateSeance",">=",$date->startOfWeek())->where("DateSeance","<=",$date->endOfWeek());
+        return $this->Seances->where("DateSeance",">=",$date->startOfWeek()->format('Y-m-d'))->where("DateSeance","<=",$date->endOfWeek()->format('Y-m-d'));
     }
 }

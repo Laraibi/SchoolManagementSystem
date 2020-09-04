@@ -71,7 +71,7 @@ class ClasseController extends Controller
     {
         //
         $SelectedClasse=Classe::find($id);
-        $Classes=Classe::all();
+        $Classes =Classe::paginate(5);
         return view ("Classe/index",compact("Classes","SelectedClasse"));
     }
 
@@ -88,7 +88,7 @@ class ClasseController extends Controller
         $SelectedClasse=Classe::find($id);
         $SelectedClasse->Name=$request->Name;
         $SelectedClasse->save();
-        $Classes=Classe::all();
+        $Classes =Classe::paginate(5);
         return view ("Classe/index",compact("Classes"));
     }
 
@@ -103,7 +103,7 @@ class ClasseController extends Controller
         //
         $SelectedClasse=Classe::find($id);     
         $SelectedClasse->delete();
-        $Classes=Classe::all();
+        $Classes =Classe::paginate(5);
         return view ("Classe/index",compact("Classes"));
     }
 
@@ -119,7 +119,7 @@ class ClasseController extends Controller
         }
 
         $ClasseToShow=Classe::find($request->ClasseToShow);
-        $Classes =Classe::all();
+        $Classes =Classe::paginate(5);
         $FreeStudents=Student::where('Classe_id',null)->get();
         return view("Classe/index",compact("ClasseToShow","Classes","FreeStudents"));
 
@@ -130,7 +130,7 @@ class ClasseController extends Controller
         $StudentToRemove->Classe_id=null;
         $StudentToRemove->save();
         $ClasseToShow=Classe::find($class_id);
-        $Classes =Classe::all();
+        $Classes =Classe::paginate(5);
         $FreeStudents=Student::where('Classe_id',null)->get();
         return view("Classe/index",compact("ClasseToShow","Classes","FreeStudents"));
 

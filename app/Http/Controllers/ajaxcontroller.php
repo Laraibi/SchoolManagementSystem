@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Classe;
 use App\Matiere;
+use App\Seance;
+
 
 class ajaxcontroller extends Controller
 {
@@ -17,29 +19,30 @@ class ajaxcontroller extends Controller
             $Classe = Classe::find($request->get('Classe_ID'));
             $DateBeginWeek = $request->get('DateBeginWeek');
             $WeekNumber = Carbon::parse($DateBeginWeek)->weekOfYear;
+            $Year = Carbon::parse($DateBeginWeek)->year;
 
             //Retrouver le Planning de la Classe Selectionnee sur la semaine choisie
 
-            // echo $Classe->PlanningSemaine($WeekNumber, 2020)->all()[0]->Type;
 
-            // repondre la page avec les elementes retrouves.
-            // $data = array(
-            //     'Classe_Name'  => $Classe->name,
-            //     'DateBeginWeek'  => $WeekNumber->weekOfYear
-            // );
-
-            $Seances = $Classe->PlanningSemaine($WeekNumber, 2020);
+            $Seances = $Classe->PlanningSemaine($WeekNumber, $Year);
             $data = [];
 
+            $infos = array(
+                'Classe_Name'  => $Classe->name,
+                'WeekNumber'  => $WeekNumber,
+                'DateBeginWeek' => Carbon::parse($DateBeginWeek)->startOfWeek()->format('Y-m-d')
+            );
+            array_push($data, $infos);
             foreach ($Seances as $Seance) {
                 $infos = array(
                     "DateSeance" => $Seance->DateSeance,
                     "Matiere" => $Seance->Matiere->Name,
                     "Teacher" => $Seance->Teacher->SecondName,
-                    "Creneau"=>$Seance->Creneau,
-                    // "TypeObjectName"=>$Seance->TypeObject->Name
+                    "Creneau" => $Seance->Creneau,
+                    "Type" => $Seance->Type,
+                    "TypeObjectName" => $Seance->TypeObject->Name
                 );
-                array_push($data,$infos);
+                array_push($data, $infos);
             }
             echo json_encode($data);
         }
@@ -50,22 +53,65 @@ class ajaxcontroller extends Controller
     {
         if ($request->ajax()) {
 
-            $type = $request->get('Type');
-            $MatiereID = $request->get('MatiereID');
 
-            $data = '';
+            //    $data= json_decode($request->getContent(),);
+            // $data = $request->json()->all();
+            $type = $request->Type;
+            $MatiereID = $request->MatiereID;
+
+            $dataTeaches = [];
+
+            $Teachers = Matiere::find($MatiereID)->Teachers;
+
+            foreach ($Teachers as $Teacher) {
+                $infos = array(
+                    'TeacherName'  => $Teacher->FirstName,
+                    'TeacherId'  => $Teacher->id
+                );
+                array_push($dataTeaches, $infos);
+            }
+
+            $dataCoursesOrExams = [];
+
             if ($type == 'Exam') {
                 $Exams = Matiere::find($MatiereID)->Examens;
                 foreach ($Exams as $Exam) {
-                    $data .= "<option value=\"$Exam->id\">$Exam->Name</option>";
+                    // $data .= "<option value=\"$Exam->id\">$Exam->Name</option>";
+                    $infos = array(
+                        'CourseName'  => $Exam->Name,
+                        'CourseId'  => $Exam->id
+                    );
+                    array_push($dataCoursesOrExams, $infos);
                 }
             } else {
                 $Cours = Matiere::find($MatiereID)->Cours;
                 foreach ($Cours as $Cour) {
-                    $data .= "<option value=\"$Cour->id\">$Cour->Name</option>";
+                    // $data .= "<option value=\"$Cour->id\">$Cour->Name</option>";
+                    $infos = array(
+                        'CourseName'  => $Cour->Name,
+                        'CourseId'  => $Cour->id
+                    );
+                    array_push($dataCoursesOrExams, $infos);
                 }
             }
-            echo $data;
+            // echo json_encode($data);
+            return response()->json(["Teachers" => $dataTeaches, "CoursesOrExam" => $dataCoursesOrExams]);
+            // echo json_encode("Allo");
+        } else {
+            echo json_encode("Nada");
+        }
+    }
+
+
+
+    function addSeance(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $seance=new Seance($request->all());
+            $seance->save();
+            return response()->json(["Msg" => 'Seance Added']);
+
         }
     }
 }
