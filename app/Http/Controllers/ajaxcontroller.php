@@ -35,6 +35,7 @@ class ajaxcontroller extends Controller
             array_push($data, $infos);
             foreach ($Seances as $Seance) {
                 $infos = array(
+                    "id"=>$Seance->id,
                     "DateSeance" => $Seance->DateSeance,
                     "Matiere" => $Seance->Matiere->Name,
                     "Teacher" => $Seance->Teacher->SecondName,
@@ -112,5 +113,89 @@ class ajaxcontroller extends Controller
             $seance->save();
             return response()->json(["Type"=>"Success","Msg" => 'Seance Added']);
         }
+    }
+
+    function editSeance(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $seance=Seance::find($request->SeanceID);
+            $seance->Matiere_id=$request->Matiere_id;
+            $seance->Teacher_id=$request->Teacher_id;
+            $seance->Salle_id=$request->Salle_id;
+            $seance->Type_id=$request->Type_id;
+            $seance->Type=$request->Type;
+            $seance->save();
+            return response()->json(["Type"=>"Success","Msg" => 'Seance Edited']);
+        }
+    }
+
+    
+    function deleteSeance(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $seance=Seance::find($request->SeanceID);
+            $seance->delete();
+            return response()->json(["Type"=>"Success","Msg" => 'Seance Deleted']);
+        }
+
+    }
+
+
+    function getSeance(Request $request){
+        if ($request->ajax()) {
+            $Seance=Seance::find($request->SeanceID);
+
+            $infos = array(
+                "id"=>$Seance->id,
+                "DateSeance" => $Seance->DateSeance,
+                "Matiere" => $Seance->Matiere->id,
+                "Teacher" => $Seance->Teacher->id,
+                "Creneau" => $Seance->Creneau,
+                "Type" => $Seance->Type,
+                "TypeObjectid" => $Seance->TypeObject->id
+            );
+
+            $type =  $Seance->Type;
+            $dataTeaches = [];
+
+            $Teachers = Matiere::find($Seance->Matiere->id)->Teachers;
+
+            foreach ($Teachers as $Teacher) {
+                $infosteach = array(
+                    'TeacherName'  => $Teacher->FirstName,
+                    'TeacherId'  => $Teacher->id
+                );
+                array_push($dataTeaches, $infosteach);
+            }
+
+            $dataCoursesOrExams = [];
+
+            if ($type == 'Exam') {
+                $Exams = Matiere::find($Seance->Matiere->id)->Examens;
+                foreach ($Exams as $Exam) {
+                    // $data .= "<option value=\"$Exam->id\">$Exam->Name</option>";
+                    $infoscours = array(
+                        'CourseName'  => $Exam->Name,
+                        'CourseId'  => $Exam->id
+                    );
+                    array_push($dataCoursesOrExams, $infoscours);
+                }
+            } else {
+                $Cours = Matiere::find($Seance->Matiere->id)->Cours;
+                foreach ($Cours as $Cour) {
+                    // $data .= "<option value=\"$Cour->id\">$Cour->Name</option>";
+                    $infoscours = array(
+                        'CourseName'  => $Cour->Name,
+                        'CourseId'  => $Cour->id
+                    );
+                    array_push($dataCoursesOrExams, $infoscours);
+                }
+            }
+            return response()->json(["Type"=>"Success","SeanceData"=>$infos,"Teachers" => $dataTeaches, "CoursesOrExam" => $dataCoursesOrExams]);
+        }
+
+
     }
 }

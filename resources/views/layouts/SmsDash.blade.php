@@ -155,6 +155,14 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('Presence') }}" class="nav-link">
+                                    <i class="fas fa-chart-line"></i>
+                                    <p>
+                                        Presence
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
