@@ -72,7 +72,7 @@ class StudentController extends Controller
             // $Nextid = $id[0]->Auto_increment;
             // dd($Photo);
             $date = Carbon::now();
-            $Photo->storeAs('Public/StudentImages', "Student_" .    $Student->FirstName .  $date->format('Y_M_D') ."." . $Photo->extension());
+            $Photo->storeAs('public/studentImages', "Student_" .    $Student->FirstName .  $date->format('Y_M_D') ."." . $Photo->extension());
             $Student->Photo =  "Student_" .    $Student->FirstName . $date->format('Y_M_D') . "." . $Photo->extension();
         }
         $Student->save();
