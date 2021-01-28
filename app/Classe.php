@@ -22,11 +22,6 @@ class Classe extends Model
         return $this->hasMany("App\Seance","Classe_id");
     }
 
-    public function PlanningDay($Day){
-        $date = new Carbon();
-        // $date->setISODate()
-
-    }
 
     public function PlanningSemaine($NumSemaine, $Year)
     {
