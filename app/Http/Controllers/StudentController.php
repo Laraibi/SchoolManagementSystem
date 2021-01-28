@@ -7,6 +7,7 @@ use App\Student;
 use App\StudentParent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 
@@ -56,24 +57,25 @@ class StudentController extends Controller
         $Student->Male = $request->Male;
         $Student->Parent_id = $request->Parent_id;
 
-        // if ($request->hasFile('Photo')) {
-        //     //
-        //     $Photo = $request->file('Photo');
-        //     // $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
-        //     //     ->select('AUTO_INCREMENT as id')
-        //     //     ->where('TABLE_SCHEMA', 'd8bio1bvrfvkl8')
-        //     //     ->where('TABLE_NAME', 'students')
-        //     //     ->get();
-        //     // $Nextid = $Nextid->all();
+        if ($request->hasFile('Photo')) {
+            //
+            $Photo = $request->file('Photo');
+            // $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
+            //     ->select('AUTO_INCREMENT as id')
+            //     ->where('TABLE_SCHEMA', 'd8bio1bvrfvkl8')
+            //     ->where('TABLE_NAME', 'students')
+            //     ->get();
+            // $Nextid = $Nextid->all();
 
 
-        //     $id = DB::select("SHOW TABLE STATUS LIKE 'students'");
-        //     $Nextid = $id[0]->Auto_increment;
-        //     // dd($Photo);
-        //     $Photo->storeAs('Public/StudentImages', "Student_" .  $Nextid[0]->id . "." . $Photo->extension());
-        //     $Student->Photo =  "Student_" .  $Nextid[0]->id . "." . $Photo->extension();
-        // }
-        dd($Student->save());
+            // $id = DB::select("SHOW TABLE STATUS LIKE 'students'");
+            // $Nextid = $id[0]->Auto_increment;
+            // dd($Photo);
+            $date = Carbon::now();
+            $Photo->storeAs('Public/StudentImages', "Student_" .    $Student->FirstName .  $date->format('Y_M_D') ."." . $Photo->extension());
+            $Student->Photo =  "Student_" .    $Student->FirstName . $date->format('Y_M_D') . "." . $Photo->extension();
+        }
+        $Student->save();
         $Students = Student::paginate(5);
         $StudentParents = StudentParent::all();
         return view("student/index", compact("Students", "StudentParents"));
