@@ -104,7 +104,7 @@ class ExamenController extends Controller
         $SelectedExamen->save();
         $Examens=Examen::all();
         $Matieres=Matiere::all();
-        return view("Examen.Index",compact("Examens","Matieres"));
+        return view("Examen.index",compact("Examens","Matieres"));
     }
 
     /**
