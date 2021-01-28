@@ -59,6 +59,7 @@ Route::get("/addSeance", "ajaxcontroller@addSeance")->name("addSeance")->middlew
 Route::get("/editSeance", "ajaxcontroller@editSeance")->name("editSeance")->middleware('auth');
 Route::get("/deleteSeance", "ajaxcontroller@deleteSeance")->name("deleteSeance")->middleware('auth');
 Route::get("/getSeance", "ajaxcontroller@getSeance")->name("getSeance")->middleware('auth');
+Route::get("/GetClasseStudents", "ajaxcontroller@GetClasseStudents")->name("GetClasseStudents")->middleware('auth');
 
 
 route::get("/test", function () {

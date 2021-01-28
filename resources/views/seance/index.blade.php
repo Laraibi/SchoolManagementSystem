@@ -349,8 +349,6 @@
                                     });
 
                                 }
-
-
                             });
 
                             $("a.editSeanceLink").on("click", function(e) {
@@ -480,8 +478,6 @@
                         $("#Prof_ID").removeAttr("disabled");
                         $("#Prof_ID option").remove();
                         $("#Type_ID option").remove();
-
-
                         var Teachers = data.Teachers;
                         for (i = 0; i < Teachers.length; i++) {
                             var html = "<option value=\"" + Teachers[i].TeacherId + "\">" +
@@ -578,12 +574,12 @@
                             var html =
                                 "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">Seance Ajoutee<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
                             $('#AddSeanceModal .modal-body').prepend(html);
-                            alert(html);
+                            // alert(html);
                         } else {
                             var html =
                                 "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">Seance Non Ajoutee<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
                             $('#AddSeanceModal .modal-body').prepend(html);
-                            alert(html);
+                            // alert(html);
 
                         }
                     }

@@ -14,12 +14,18 @@ class Classe extends Model
 
     public function Students()
     {
-        return $this->hasMany("App\Student");
+        return $this->hasMany("App\Student","classe_id");
     }
 
     public function Seances()
     {
         return $this->hasMany("App\Seance","Classe_id");
+    }
+
+    public function PlanningDay($Day){
+        $date = new Carbon();
+        // $date->setISODate()
+
     }
 
     public function PlanningSemaine($NumSemaine, $Year)

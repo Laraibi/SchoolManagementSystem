@@ -35,7 +35,7 @@ class ajaxcontroller extends Controller
             array_push($data, $infos);
             foreach ($Seances as $Seance) {
                 $infos = array(
-                    "id"=>$Seance->id,
+                    "id" => $Seance->id,
                     "DateSeance" => $Seance->DateSeance,
                     "Matiere" => $Seance->Matiere->Name,
                     "Teacher" => $Seance->Teacher->SecondName,
@@ -49,6 +49,38 @@ class ajaxcontroller extends Controller
         }
     }
 
+    function GetClasseStudents(Request $request)
+    {
+        if ($request->ajax()) {
+            $Classe = Classe::find($request->get('Classe_ID'));
+            //Retrouver le Planning de la Classe Selectionnee sur la semaine choisie
+            $Students = $Classe->Students;
+            $Seance = $Classe->Seances->where('DateSeance', '=', $request->get('SelectedDate'))->where('Creneau', '=', $request->get('SelectedCreneau'))->first();
+            // $Seance = $Classe->Seances;
+
+            $data = [];
+            $infos = array(
+                "SeanceID" =>$Seance?$Seance->id:-1,
+                "SeanceType" =>$Seance?$Seance->Type:'',
+                "SeanceMatiere" =>$Seance?$Seance->Matiere:''
+            );
+
+            // $infos = array(
+            //     "SelectedDate" => $request->get('SelectedDate')
+            // );
+
+            array_push($data,  $infos);
+
+            foreach ($Students as $Student) {
+                $infos = array(
+                    "id" => $Student->id,
+                    "Name" => $Student->FirstName,
+                );
+                array_push($data,  $infos);
+            }
+            return response()->json($data);
+        }
+    }
 
     function getMatiereCoursesOrExams(Request $request)
     {
@@ -109,9 +141,9 @@ class ajaxcontroller extends Controller
     {
 
         if ($request->ajax()) {
-            $seance=new Seance($request->all());
+            $seance = new Seance($request->all());
             $seance->save();
-            return response()->json(["Type"=>"Success","Msg" => 'Seance Added']);
+            return response()->json(["Type" => "Success", "Msg" => 'Seance Added']);
         }
     }
 
@@ -119,36 +151,36 @@ class ajaxcontroller extends Controller
     {
 
         if ($request->ajax()) {
-            $seance=Seance::find($request->SeanceID);
-            $seance->Matiere_id=$request->Matiere_id;
-            $seance->Teacher_id=$request->Teacher_id;
-            $seance->Salle_id=$request->Salle_id;
-            $seance->Type_id=$request->Type_id;
-            $seance->Type=$request->Type;
+            $seance = Seance::find($request->SeanceID);
+            $seance->Matiere_id = $request->Matiere_id;
+            $seance->Teacher_id = $request->Teacher_id;
+            $seance->Salle_id = $request->Salle_id;
+            $seance->Type_id = $request->Type_id;
+            $seance->Type = $request->Type;
             $seance->save();
-            return response()->json(["Type"=>"Success","Msg" => 'Seance Edited']);
+            return response()->json(["Type" => "Success", "Msg" => 'Seance Edited']);
         }
     }
 
-    
+
     function deleteSeance(Request $request)
     {
 
         if ($request->ajax()) {
-            $seance=Seance::find($request->SeanceID);
+            $seance = Seance::find($request->SeanceID);
             $seance->delete();
-            return response()->json(["Type"=>"Success","Msg" => 'Seance Deleted']);
+            return response()->json(["Type" => "Success", "Msg" => 'Seance Deleted']);
         }
-
     }
 
 
-    function getSeance(Request $request){
+    function getSeance(Request $request)
+    {
         if ($request->ajax()) {
-            $Seance=Seance::find($request->SeanceID);
+            $Seance = Seance::find($request->SeanceID);
 
             $infos = array(
-                "id"=>$Seance->id,
+                "id" => $Seance->id,
                 "DateSeance" => $Seance->DateSeance,
                 "Matiere" => $Seance->Matiere->id,
                 "Teacher" => $Seance->Teacher->id,
@@ -193,9 +225,7 @@ class ajaxcontroller extends Controller
                     array_push($dataCoursesOrExams, $infoscours);
                 }
             }
-            return response()->json(["Type"=>"Success","SeanceData"=>$infos,"Teachers" => $dataTeaches, "CoursesOrExam" => $dataCoursesOrExams]);
+            return response()->json(["Type" => "Success", "SeanceData" => $infos, "Teachers" => $dataTeaches, "CoursesOrExam" => $dataCoursesOrExams]);
         }
-
-
     }
 }
