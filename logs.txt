@@ -1,17 +1,3 @@
-2021-01-28T02:00:01.684935+00:00 app[api]: Enable Logplex by user meh.laraibi@gmail.com
-2021-01-28T02:00:01.684935+00:00 app[api]: Release v2 created by user meh.laraibi@gmail.com
-2021-01-28T02:02:54.983230+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=5c93b35d-b526-49d7-a028-c95f81693a93 fwd="196.217.182.144" dyno= connect= service= status=502 bytes= protocol=https
-2021-01-28T02:02:55.000881+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/robots.txt" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=d0c5637b-3369-4099-880b-e293cfda1e22 fwd="196.217.182.144" dyno= connect= service= status=502 bytes= protocol=https
-2021-01-28T02:02:56.590583+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/favicon.ico" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=5207a767-69f6-46fc-9712-8b213ae15ce7 fwd="196.217.182.144" dyno= connect= service= status=502 bytes= protocol=https
-2021-01-28T02:04:49.657497+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=87d00a4f-ccf4-4288-948b-92c54d3f7d72 fwd="196.217.182.144" dyno= connect= service= status=502 bytes= protocol=https
-2021-01-28T02:04:51.005379+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/favicon.ico" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=39f8854b-5abd-432e-88f9-a73ecc7ffaf9 fwd="196.217.182.144" dyno= connect= service= status=502 bytes= protocol=https
-2021-01-28T11:32:59.049311+00:00 app[api]: Attach DATABASE (@ref:postgresql-parallel-13868) by user meh.laraibi@gmail.com
-2021-01-28T11:32:59.049311+00:00 app[api]: Running release v3 commands by user meh.laraibi@gmail.com
-2021-01-28T11:32:59.062596+00:00 app[api]: @ref:postgresql-parallel-13868 completed provisioning, setting DATABASE_URL. by user meh.laraibi@gmail.com
-2021-01-28T11:32:59.062596+00:00 app[api]: Release v4 created by user meh.laraibi@gmail.com
-2021-01-28T11:38:20.000000+00:00 app[api]: Build started by user meh.laraibi@gmail.com
-2021-01-28T11:38:52.965351+00:00 app[api]: Release v5 created by user meh.laraibi@gmail.com
-2021-01-28T11:38:52.965351+00:00 app[api]: Deploy c338dbb4 by user meh.laraibi@gmail.com
 2021-01-28T11:38:52.981970+00:00 app[api]: Scaled to web@1:Free by user meh.laraibi@gmail.com
 2021-01-28T11:38:53.000000+00:00 app[api]: Build succeeded
 2021-01-28T11:38:56.572048+00:00 heroku[web.1]: Starting process with command `vendor/bin/heroku-php php-apache2 public/`
@@ -98,4 +84,20 @@
 2021-01-28T12:06:58.525824+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=1425d52a-f149-4c6a-9ac3-1b554b4c19f0 fwd="196.217.182.144" dyno= connect= service= status=503 bytes= protocol=https
 2021-01-28T12:08:48.802465+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=ad35ab64-8b9d-4d7e-aa20-28cd7ede2e2d fwd="196.217.182.144" dyno= connect= service= status=503 bytes= protocol=https
 2021-01-28T12:08:49.831510+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=22300c2b-8aa2-4541-8a50-14a317835411 fwd="196.217.182.144" dyno= connect= service= status=503 bytes= protocol=https
+2021-01-28T12:19:49.000000+00:00 app[api]: Build started by user meh.laraibi@gmail.com
+2021-01-28T12:20:05.072791+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=3b8774bb-fe03-4a29-a917-2bb9ebfd4439 fwd="196.217.182.144" dyno= connect= service= status=503 bytes= protocol=https
+2021-01-28T12:20:06.104946+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=d022dbfd-5bdd-484e-8484-8d98a2fa36f4 fwd="196.217.182.144" dyno= connect= service= status=503 bytes= protocol=https
+2021-01-28T12:20:10.264368+00:00 app[api]: Deploy 9cc7b42d by user meh.laraibi@gmail.com
+2021-01-28T12:20:10.264368+00:00 app[api]: Release v13 created by user meh.laraibi@gmail.com
+2021-01-28T12:20:11.000000+00:00 app[api]: Build succeeded
+2021-01-28T12:20:11.675976+00:00 heroku[web.1]: State changed from crashed to starting
+2021-01-28T12:20:14.990167+00:00 heroku[web.1]: Starting process with command `$(composer config bin-dir)/heroku-php-apache2 public/`
+2021-01-28T12:20:18.137812+00:00 app[web.1]: DOCUMENT_ROOT changed to 'public/'
+2021-01-28T12:20:18.200054+00:00 app[web.1]: Detected 536870912 Bytes of RAM
+2021-01-28T12:20:18.229076+00:00 app[web.1]: PHP memory_limit is 128M Bytes
+2021-01-28T12:20:18.235755+00:00 app[web.1]: Starting php-fpm with 4 workers...
+2021-01-28T12:20:18.312775+00:00 app[web.1]: Starting httpd...
+2021-01-28T12:20:18.768468+00:00 heroku[web.1]: State changed from starting to up
+2021-01-28T12:22:58.380864+00:00 heroku[router]: at=info method=GET path="/" host=schoolmanagementsystemlaraibi.herokuapp.com request_id=cc002251-c49e-4031-9a2c-a543754153f1 fwd="196.217.182.144" dyno=web.1 connect=1ms service=395ms status=500 bytes=276346 protocol=https
+2021-01-28T12:22:58.362293+00:00 app[web.1]: 10.10.68.189 - - [28/Jan/2021:12:22:57 +0000] "GET / HTTP/1.1" 500 275852 "https://dashboard.heroku.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36
 Terminer le programme de commandes (O/N)ÿ? 
