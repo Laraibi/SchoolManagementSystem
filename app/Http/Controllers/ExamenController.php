@@ -20,7 +20,7 @@ class ExamenController extends Controller
         //
         $Examens=Examen::all();
         $Matieres=Matiere::all();
-        return view("Examen.Index",compact("Examens","Matieres"));
+        return view("Examen.index",compact("Examens","Matieres"));
     }
 
     /**
