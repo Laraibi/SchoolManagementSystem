@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Matiere extends Model
 {
     //
-    
+    protected $table="Matieres";
     protected $fillable = [
         'Name'
     ];
