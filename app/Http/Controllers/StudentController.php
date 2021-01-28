@@ -61,7 +61,7 @@ class StudentController extends Controller
             $Photo = $request->file('Photo');
             $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
                 ->select('AUTO_INCREMENT as id')
-                ->where('TABLE_SCHEMA', 'SMS_Laravel')
+                ->where('TABLE_SCHEMA', 'd8bio1bvrfvkl8')
                 ->where('TABLE_NAME', 'students')
                 ->get();
                 $Nextid=$Nextid->all();
