@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StudentParent extends Model
 {
     //
-    protected $table="Parents";
+    protected $table="parents";
 
     protected $fillable = [
         'FirstName', 'SecondName'
