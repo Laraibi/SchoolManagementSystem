@@ -17,4 +17,12 @@ class PresenceController extends Controller
       
         return view("seance.presence",compact("Classes"));
     }
+    public function SuiviPresence()
+    {
+        //
+        $Classes=Classe::all();
+      
+        return view("seance.suivipresence",compact("Classes"));
+    }
+
 }

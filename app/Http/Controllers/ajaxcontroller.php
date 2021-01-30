@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Classe;
 use App\Matiere;
 use App\Seance;
+use App\Presence;
 
 
 class ajaxcontroller extends Controller
@@ -227,6 +228,26 @@ class ajaxcontroller extends Controller
                 }
             }
             return response()->json(["Type" => "Success", "SeanceData" => $infos, "Teachers" => $dataTeaches, "CoursesOrExam" => $dataCoursesOrExams]);
+        }
+    }
+
+
+    function SetSeancePresence(Request $request){
+        if($request->ajax()){
+            $seanceid=$request->SeanceID;
+            $students=$request->StudentsData;
+            $infos=array();
+            foreach($students as $student){
+                $Presence=new Presence();
+                $Presence->Seance_id=$seanceid;
+                $Presence->Student_id=$student['id'];
+                $Presence->EtatPresence=$student['EtatPresence']=="true"?1:0;
+                $Presence->EtatRetard=$student['EtatRetard']=="true"?1:0;
+                $Presence->MinutesRetard=$student['TempsRetard']?$student['TempsRetard']:0;
+                $Presence->save();
+                array_push($infos,$student['EtatPresence']);
+            }
+            return response()->json(["StudentsId"=>$infos]);
         }
     }
 }
