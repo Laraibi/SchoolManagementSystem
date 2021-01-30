@@ -60,20 +60,20 @@ class StudentController extends Controller
         if ($request->hasFile('Photo')) {
             //
             $Photo = $request->file('Photo');
-            // $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
-            //     ->select('AUTO_INCREMENT as id')
-            //     ->where('TABLE_SCHEMA', 'd8bio1bvrfvkl8')
-            //     ->where('TABLE_NAME', 'students')
-            //     ->get();
-            // $Nextid = $Nextid->all();
+            $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
+                ->select('AUTO_INCREMENT as id')
+                ->where('TABLE_SCHEMA', 'sms_laravel')
+                ->where('TABLE_NAME', 'students')
+                ->get();
+            $Nextid = $Nextid->all();
 
 
             // $id = DB::select("SHOW TABLE STATUS LIKE 'students'");
             // $Nextid = $id[0]->Auto_increment;
             // dd($Photo);
-            $date = Carbon::now();
-            $Photo->storeAs('public/storage/studentImages', "Student_" .    $Student->FirstName .  $date->format('Y_M_D') ."." . $Photo->extension());
-            $Student->Photo =  "Student_" .    $Student->FirstName . $date->format('Y_M_D') . "." . $Photo->extension();
+            // $date = Carbon::now();
+            $Photo->storeAs('/public/StudentImages', "Student_" .    $Student->FirstName .  $Nextid[0]->id . "." . $Photo->extension());
+            $Student->Photo =  "Student_" .    $Student->FirstName . $Nextid[0]->id . "." . $Photo->extension();
         }
         $Student->save();
         $Students = Student::paginate(5);

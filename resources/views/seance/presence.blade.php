@@ -1,4 +1,11 @@
 @extends('layouts.SmsDash')
+@section('styles')
+<style>
+    h2{
+        font-size: 2rem;
+    }
+</style>
+@endsection
 @section('content')
     <div class="row  mb-3">
         <div class="col-3 "></div>
@@ -49,6 +56,26 @@
         <div class="col-8">
             <div class="card shadow p-3 rounded-50 border border-info">
                 <div class="card-header"></div>
+                <h2 class="display-5 my-2">Information Seance :</h2>
+                <table class="table  table-info " id="SeanceInfosTable">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Creneau</th>
+                            <th scope="col">Matiere</th>
+                            <th scope="col">Professeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td><input type="hidden" id="SelectedSeanceID" name="SelectedSeanceID"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tbody>
+                </table>
+                <h2 class="display-5 my-2">Liste Des Etudiants :</h2>
                 <table class="table" id="studentsTable">
                     <thead>
                         <tr>
@@ -71,13 +98,15 @@
                             <td><label for="Retard">Retard :</label>
                                 <input type="checkbox" disabled name="Retard" id="Retard">
                             </td>
-                            <td><input type="text" name="TempsRetard" id="TempsRetard" placeholder="Durée"></td>
+                            <td><input type="text" disabled name="TempsRetard" id="TempsRetard" placeholder="Durée"></td>
                         </tr>
 
                     </tbody>
                 </table>
                 <div class="card-footer">
-                    <button class="btn btn-primary save">Enregistrer</button>
+                    <button class="btn btn-primary save" disabled>Enregistrer</button>
+                    <button class="btn btn-warning allpresent" disabled>Presence totale</button>
+                    
                 </div>
             </div>
         </div>
@@ -92,6 +121,33 @@
                 format: 'L',
                 format: 'YYYY-MM-DD',
                 calendarWeeks: true
+            });
+            $('.allpresent').click(function(){
+                $('input:radio[name^="Presence"]').each(function(){
+                    if($( this ).val()=='Present'){
+                        $(this).prop('checked', true);
+                    }else{
+                        $(this).prop('checked', false);
+                    }
+                });
+                $('table input').removeAttr('disabled');
+                // alert('all present');
+            });
+            $('.save').click(function(){
+                var mydata = {
+                    SeanceID: $('input#SelectedSeanceID').val(),
+                    StudentsData:Array()
+                }
+                $('table#studentsTable tbody tr').each(function(){
+                    if($(this).attr('id') !== 'basic'){
+                        var Student={
+                            id:parseInt($(this).find('td').eq(1).find('input').eq(0).attr('name').replace('Presence','')),
+                            EtatPresence:$(this).find('td').eq(1).find('input[name^="Presence"]:checked').val()
+                        }
+                        mydata.StudentsData.push(Student);
+                    }
+                });
+                console.log(mydata);
             });
             $('#FormClasseDateSelect').on('submit', function(event) {
                 event.preventDefault();
@@ -123,11 +179,29 @@
                     success: function(data) {
                         var Students = data;
                         if(data[0].SeanceID == -1){
-                            $('button.save').attr("disabled",'disabled');
-                            alert('aucune Seance Planifie dans ce creneau a cette date');
+
+                            var html ="<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">aucune Seance Planifie dans ce creneau a cette date<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
+                            $('.card-header').html(html);
+
+                            $('button.save,button.allpresent').attr("disabled",'disabled');
+                            $("table#SeanceInfosTable tbody td").eq(0).find('input').val(-1);
+                            $("table#SeanceInfosTable").removeClass('table-info');
+                            $("table#SeanceInfosTable").addClass('table-danger');
+                            for(j=1;j<=4;j++){
+                                $("table#SeanceInfosTable tbody td").eq(j).html('');
+                            }
+                            // alert('aucune Seance Planifie dans ce creneau a cette date');
                         }else{
-                            $('button.save').removeAttr("disabled");
-                            $('.card-header').html(data[0].SeanceMatiere.Name);
+                            $('.card-header').html('');
+                            $('button.save,button.allpresent').removeAttr("disabled");
+                            // $('.card-header').html(data[0].SeanceMatiere.Name);
+                            $("table#SeanceInfosTable tbody td").eq(0).find('input').val(data[0].SeanceID);
+                            $("table#SeanceInfosTable tbody td").eq(1).html(mydata.SelectedDate);
+                            $("table#SeanceInfosTable tbody td").eq(2).html(mydata.SelectedCreneau);
+                            $("table#SeanceInfosTable tbody td").eq(3).html(data[0].SeanceMatiere);
+                            $("table#SeanceInfosTable tbody td").eq(4).html(data[0].SeanceTeacher);
+                            $("table#SeanceInfosTable").removeClass('table-danger');
+                            $("table#SeanceInfosTable").addClass('table-info');
                             // alert('aucune Seance Planifie dans ce creneau a cette date');
                         }
                         for (i = 1; i < Students.length; i++) {

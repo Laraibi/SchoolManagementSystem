@@ -62,7 +62,8 @@ class ajaxcontroller extends Controller
             $infos = array(
                 "SeanceID" =>$Seance?$Seance->id:-1,
                 "SeanceType" =>$Seance?$Seance->Type:'',
-                "SeanceMatiere" =>$Seance?$Seance->Matiere:''
+                "SeanceMatiere" =>$Seance?$Seance->Matiere->Name:'',
+                "SeanceTeacher"=>$Seance?$Seance->Teacher->SecondName:''
             );
 
             // $infos = array(
