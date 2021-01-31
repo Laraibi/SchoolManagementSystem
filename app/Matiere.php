@@ -12,7 +12,7 @@ class Matiere extends Model
         'Name'
     ];
     public function Teachers(){
-        return $this->hasMany("App\Teacher");
+        return $this->hasMany("App\\teacher");
     }
     public function Cours(){
         return $this->hasMany("App\Cour");

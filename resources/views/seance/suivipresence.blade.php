@@ -66,10 +66,12 @@
                             <th scope="col">Creneau</th>
                             <th scope="col">Matiere</th>
                             <th scope="col">Professeur</th>
+                            <th scope="col">Taux de Presence</th>
                         </tr>
                     </thead>
                     <tbody>
                         <td><input type="hidden" id="SelectedSeanceID" name="SelectedSeanceID"></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -120,57 +122,7 @@
                 format: 'YYYY-MM-DD',
                 calendarWeeks: true
             });
-            $('.allpresent').click(function() {
-                $('input:radio[name^="Presence"]').each(function() {
-                    if ($(this).val() == 'Present') {
-                        $(this).prop('checked', true);
-                    } else {
-                        $(this).prop('checked', false);
-                    }
-                });
-                $('table input').removeAttr('disabled');
-                // alert('all present');
-            });
-            $('.save').click(function() {
-                event.preventDefault();
-                var mydata = {
-                    SeanceID: $('input#SelectedSeanceID').val(),
-                    StudentsData: Array()
-                }
-                $('table#studentsTable tbody tr').each(function() {
-                    if ($(this).attr('id') !== 'basic') {
-                        var Student = {
-                            id: parseInt($(this).find('td').eq(1).find('input').eq(0).attr(
-                                'name').replace('Presence', '')),
-                            EtatPresence: $(this).find('td').eq(1).find(
-                                    'input[name^="Presence"]:checked').val() == "Present" ?
-                                true : false,
-                            EtatRetard: $(this).find('td').eq(2).find('input#Retard').is(
-                                ':checked'),
-                            TempsRetard: $(this).find('td').eq(3).find('input#TempsRetard')
-                                .val()
-                        }
-                        mydata.StudentsData.push(Student);
-                    }
-                });
-                // console.log(mydata);
-                // Stocke l'etat de presence de la seance selectionner par etudiant ..
-                var token = $('input[name="_token"]').attr('value');
-                $.ajaxSetup({
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader('Csrf-Token', token);
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ route('SetSeancePresence') }}",
-                    data: mydata,
-                    success: function(data) {
 
-                    }
-                });
-
-            });
             $('#FormClasseDateSelect').on('submit', function(event) {
                 event.preventDefault();
 
@@ -196,7 +148,7 @@
                 }
                 $.ajax({
                     type: 'GET',
-                    url: "{{ route('GetClasseStudents') }}",
+                    url: "{{ route('GetClasseStudentsAndPresencesInSeance') }}",
                     data: mydata,
                     success: function(data) {
                         var Students = data;
@@ -215,8 +167,7 @@
                             }
                             // alert('aucune Seance Planifie dans ce creneau a cette date');
                         } else {
-                            $('.card-header').html('');
-                            $('button.save,button.allpresent').removeAttr("disabled");
+
                             // $('.card-header').html(data[0].SeanceMatiere.Name);
                             $("table#SeanceInfosTable tbody td").eq(0).find('input').val(data[0]
                                 .SeanceID);
@@ -228,6 +179,8 @@
                                 .SeanceMatiere);
                             $("table#SeanceInfosTable tbody td").eq(4).html(data[0]
                                 .SeanceTeacher);
+                            $("table#SeanceInfosTable tbody td").eq(5).html(data[0]
+                                .TauxPresence * 100 +'%');
                             $("table#SeanceInfosTable").removeClass('table-danger');
                             $("table#SeanceInfosTable").addClass('table-info');
                             // alert('aucune Seance Planifie dans ce creneau a cette date');
@@ -236,39 +189,22 @@
                             var $NewRow = $("#basic").clone();
                             $NewRow.attr('id', "StudentRow" + Students[i].id)
                                 .appendTo('table#studentsTable tbody');
-
+                            // $NewRow.addClass('StudentRow');
                             $("#StudentRow" + Students[i].id + ' td.StudentName').html(Students[
                                 i].Name);
-                            $NewRow.find('td.StudentPresence input[type="radio"]').attr("name",
-                                "Presence" + Students[i].id);
-                            $('input[name="Presence' + Students[i].id + '"]').change(
-                                function() {
-                                    if ($(this).val() == "Present") {
-                                        $(this).parent().next().find('input[name="Retard"]')
-                                            .removeAttr("disabled");
-                                        $(this).parent().next().next().find(
-                                                'input[name="TempsRetard"]')
-                                            .removeAttr("disabled");
-                                    } else {
-                                        $(this).parent().next().find('input[name="Retard"]')
-                                            .attr("disabled", "true");
-                                        $(this).parent().next().find('input[name="Retard"]')
-                                            .prop('checked', false);
-                                        // $(this).prop('checked', false);
-                                        $(this).parent().next().next().find(
-                                                'input[name="TempsRetard"]')
-                                            .attr("disabled", "true");
-                                    }
+                            $NewRow.find('td').eq(1).html(Students[i].Presence == 1 ? 'Oui' :
+                                'Non');
+                            $NewRow.find('td').eq(2).html(Students[i].Retard == 1 ? 'Oui' :
+                                'Non');
+                            $NewRow.find('td').eq(3).html(Students[i].MinutesRetard);
+                            $NewRow.find('th').html(i);
 
-                                });
                         }
                         $("#basic").hide();
                     }
+
                 });
-
-
             });
-
 
         });
 

@@ -26,6 +26,10 @@ class Seance extends Model
         return $this->belongsTo("App\Teacher","Teacher_id");
     }
 
+    public function Presences(){
+        return $this->hasMany("App\Presence","Seance_id");
+    }
+
     public function TypeObject(){
         if($this->Type=="Cour"){
             return $this->belongsTo("App\Cour","Type_id","id");

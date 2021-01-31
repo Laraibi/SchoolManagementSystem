@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Carbon\Carbon;
 
-
+use App\Matiere;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ Route::get('/Classe/{class_id}/removeStudent/{student_id}', "ClasseController@re
 Route::get('/Presence',"PresenceController@index")->name('Presence')->middleware('auth');
 Route::get('/SuiviPresence',"PresenceController@SuiviPresence")->name('SuiviPresence')->middleware('auth');
 
-
+Route::get("/GetClasseStudentsAndPresencesInSeance", "ajaxcontroller@GetClasseStudentsAndPresencesInSeance")->name("GetClasseStudentsAndPresencesInSeance")->middleware('auth');
 Route::get("/getPlanningClasse", "ajaxcontroller@getPlanningClasse")->name("getPlanningClasse")->middleware('auth');
 Route::get("/getMatiereCoursesOrExams", "ajaxcontroller@getMatiereCoursesOrExams")->name("getMatiereCoursesOrExams")->middleware('auth');
 Route::get("/addSeance", "ajaxcontroller@addSeance")->name("addSeance")->middleware('auth');
@@ -65,17 +65,11 @@ Route::get("/SetSeancePresence", "ajaxcontroller@SetSeancePresence")->name("SetS
 
 
 route::get("/test", function () {
-    $Classe = Classe::find(2);
-    $DateBeginWeek ='2020-08-31';
-    $WeekNumber = Carbon::parse($DateBeginWeek);
-
-
-    // $date = Carbon::now(); // or $date = new Carbon();
-    // $date->setISODate(2020, 36); // 2016-10-17 23:59:59.000000
-    // $Seance=Seance::all()->where("DateSeance",">=",$date->startOfWeek())->where("DateSeance","<=",$date->endOfWeek());
-    // $Seance=Seance::all();
-    // dd($Seance->get(0)->Type);
-    // echo "Start OF Week : " . $date->endOfWeek();
-   dd( $Classe->PlanningSemaine(36,2020)->get(1)->TypeObject->Name );
-   
+    $Matieres=Matiere::with('Teachers')->get()->sortBy(function($matiere){
+        return $matiere->teachers->count();
+    });
+    // dd($Matieres);
+    foreach ($Matieres as $Matiere){
+        echo $Matiere->teachers->count() . "</br>" ;
+    }
 });

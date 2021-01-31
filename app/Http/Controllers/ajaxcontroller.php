@@ -84,6 +84,45 @@ class ajaxcontroller extends Controller
         }
     }
 
+    function GetClasseStudentsAndPresencesInSeance(Request $request)
+    {
+        if ($request->ajax()) {
+            $Classe = Classe::find($request->get('Classe_ID'));
+            //Retrouver le Planning de la Classe Selectionnee sur la semaine choisie
+            $Students = $Classe->Students;
+            $Seance = $Classe->Seances->where('DateSeance', '=', $request->get('SelectedDate'))->where('Creneau', '=', $request->get('SelectedCreneau'))->first();
+            // $Seance = $Classe->Seances;
+
+            $data = [];
+            $Presences=$Seance?$Seance->Presences:false;
+            $infos = array(
+                "SeanceID" =>$Seance?$Seance->id:-1,
+                "SeanceType" =>$Seance?$Seance->Type:'',
+                "SeanceMatiere" =>$Seance?$Seance->Matiere->Name:'',
+                "SeanceTeacher"=>$Seance?$Seance->Teacher->SecondName:'',
+                "TauxPresence"=>$Presences?number_format(count($Presences->where('EtatPresence','=',1))/count($Presences),4):0
+            );
+
+            // $infos = array(
+            //     "SelectedDate" => $request->get('SelectedDate')
+            // );
+
+            array_push($data,  $infos);
+
+            foreach ($Students as $Student) {
+                $infos = array(
+                    "id" => $Student->id,
+                    "Name" => $Student->FirstName,
+                    "Presence"=>$Presences?$Presences->where('Student_id','=',$Student->id)->first()->EtatPresence:0,
+                    "Retard"=>$Presences?$Presences->where('Student_id','=',$Student->id)->first()->EtatRetard:0,
+                    "MinutesRetard"=>$Presences?$Presences->where('Student_id','=',$Student->id)->first()->MinutesRetard:0
+                );
+                array_push($data,  $infos);
+            }
+            return response()->json($data);
+        }
+    }
+
     function getMatiereCoursesOrExams(Request $request)
     {
         if ($request->ajax()) {
@@ -250,4 +289,6 @@ class ajaxcontroller extends Controller
             return response()->json(["StudentsId"=>$infos]);
         }
     }
+
+    
 }

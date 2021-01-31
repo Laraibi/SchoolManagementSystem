@@ -233,6 +233,7 @@
                             $("#StudentRow" + Students[i].id + ' td.StudentName').html(Students[
                                 i].Name);
                             $NewRow.find('td.StudentPresence input[type="radio"]').attr("name","Presence"+Students[i].id);
+                            $NewRow.find('th').html(i);
                             $('input[name="Presence'+Students[i].id+'"]').change(function() {
                                 if ($(this).val() == "Present") {
                                     $(this).parent().next().find('input[name="Retard"]')
@@ -247,6 +248,7 @@
                                         // $(this).prop('checked', false);
                                         $(this).parent().next().next().find('input[name="TempsRetard"]')
                                         .attr("disabled","true");
+                                        
                                 }
 
                             });

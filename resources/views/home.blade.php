@@ -92,7 +92,18 @@
         </div>
     </div>
     <div class="row">
-        <canvas id="myChart" width="400" height="400"></canvas>
+        <div class="col-6">
+            <input type="hidden" name="Girls" value="{{ $counts['Girls'] }}">
+            <input type="hidden" name="Boys" value="{{ $counts['Boys'] }}">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col-6" id="barCharArea">
+            @foreach ($Matieres as $Matiere)
+                <input type="hidden" name="{{ $Matiere->Name }}" value="{{ $Matiere->teachers->count() }}">
+            @endforeach
+            <canvas id="barCharAreaCanvas"></canvas>
+        </div>
+
     </div>
 @endsection
 @section('scripts')
@@ -101,6 +112,88 @@
         $(document).ready(function() {
 
             $(".nav-link").eq(0).addClass("active");
+
+            function setPieChart() {
+                var ctx = $("#myChart").get(0).getContext("2d");
+                var data = {
+
+                    labels: [
+                        "Filles",
+                        "Garcons"
+                    ],
+                    datasets: [{
+                        data: [$('input[name="Girls"]').val(), $('input[name="Boys"]').val()],
+                        backgroundColor: [
+                            "#FF6384",
+                            "#4BC0C0"
+                        ],
+                        label: 'Nombre',
+                    }]
+                };
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        title: {
+                            display: true,
+                            text: "% Sexe"
+                        }
+                    }
+                });
+            }
+
+            function setBarChart() {
+                var ctx = $("#barCharAreaCanvas").get(0).getContext("2d");
+                var data = {
+
+                    labels: [
+                        $('#barCharArea input[type="hidden"]').eq(0).attr('name'),
+                        $('#barCharArea input[type="hidden"]').eq(1).attr('name'),
+                        $('#barCharArea input[type="hidden"]').eq(2).attr('name'),
+                        $('#barCharArea input[type="hidden"]').eq(3).attr('name'),
+                        $('#barCharArea input[type="hidden"]').eq(4).attr('name'),
+                    ],
+                    datasets: [{
+                        data: [$('#barCharArea input[type="hidden"]').eq(0).val(),
+                            $('#barCharArea input[type="hidden"]').eq(1).val(),
+                            $('#barCharArea input[type="hidden"]').eq(2).val(),
+                            $('#barCharArea input[type="hidden"]').eq(3).val(),
+                            $('#barCharArea input[type="hidden"]').eq(4).val(),
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                        ],
+                        label: 'Nombre de Profs',
+                    }]
+                };
+                var myPieChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Nombre de Profs Par Matiere"
+                        },
+                        scales: {
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true // minimum value will be 0.
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+            setPieChart();
+            setBarChart();
+
+
         });
 
     </script>
