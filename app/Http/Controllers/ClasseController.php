@@ -41,7 +41,7 @@ class ClasseController extends Controller
         //
         $Classe = new Classe($request->all());
         $Classe->save();
-        $Classes =Classe::all();
+        $Classes =Classe::paginate(5);
         return view ("Classe/index",compact("Classes"));
     }
 
