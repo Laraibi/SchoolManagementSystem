@@ -27,11 +27,24 @@ Route::get('/', function () {
 
     if (Auth::check()) {
         // return view('home');
-        return redirect("home");
+        return redirect("/home");
     } else {
         return view('auth/login');
     }
 });
+
+Route::get('/logout', function(){
+
+    Auth::logout();
+
+    // $request->session()->invalidate();
+
+    // $request->session()->regenerateToken();
+
+    return redirect('/');
+    return true;
+});
+
 
 Auth::routes();
 
@@ -73,5 +86,5 @@ route::get("/link", function () {
     // foreach ($Matieres as $Matiere){
     //     echo $Matiere->teachers->count() . "</br>" ;
     // }
-    Artisan::call('storage:link');
+    // Artisan::call('storage:link');
 });
