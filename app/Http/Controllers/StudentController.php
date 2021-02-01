@@ -7,6 +7,7 @@ use App\Student;
 use App\StudentParent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 
 
@@ -60,9 +61,12 @@ class StudentController extends Controller
         if ($request->hasFile('Photo')) {
             //
             $Photo = $request->file('Photo');
+            $databaseName = Config::get('database.connections.'.Config::get('database.default'));
+
+            // dd($databaseName);
             $Nextid = DB::table('INFORMATION_SCHEMA.TABLES')
                 ->select('AUTO_INCREMENT as id')
-                ->where('TABLE_SCHEMA', 'sms_laravel')
+                ->where('TABLE_SCHEMA',$databaseName['database'])
                 ->where('TABLE_NAME', 'students')
                 ->get();
             $Nextid = $Nextid->all();

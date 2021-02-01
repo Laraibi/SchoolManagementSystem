@@ -6,6 +6,7 @@ use App\Seance;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 use Carbon\Carbon;
 
@@ -64,12 +65,13 @@ Route::get("/GetClasseStudents", "ajaxcontroller@GetClasseStudents")->name("GetC
 Route::get("/SetSeancePresence", "ajaxcontroller@SetSeancePresence")->name("SetSeancePresence")->middleware('auth');
 
 
-route::get("/test", function () {
-    $Matieres=Matiere::with('Teachers')->get()->sortBy(function($matiere){
-        return $matiere->teachers->count();
-    });
-    // dd($Matieres);
-    foreach ($Matieres as $Matiere){
-        echo $Matiere->teachers->count() . "</br>" ;
-    }
+route::get("/link", function () {
+    // $Matieres=Matiere::with('Teachers')->get()->sortBy(function($matiere){
+    //     return $matiere->teachers->count();
+    // });
+    // // dd($Matieres);
+    // foreach ($Matieres as $Matiere){
+    //     echo $Matiere->teachers->count() . "</br>" ;
+    // }
+    Artisan::call('storage:link');
 });
