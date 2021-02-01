@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class teacher extends Model
 {
     //
-
+    #just Comment for git
     protected $fillable=["FirstName","SecondName","Male","DateOfBirth","Matiere_id"];
     public function Matiere(){
         return $this->belongsTo("App\Matiere","Matiere_id");
