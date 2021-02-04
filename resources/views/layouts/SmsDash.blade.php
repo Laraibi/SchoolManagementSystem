@@ -37,7 +37,7 @@
     <div id="app">
         <div class="wrapper">
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -169,7 +169,7 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav> --}}
             <!-- /.navbar -->
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
