@@ -66,6 +66,7 @@ Route::get('/Classe/{class_id}/removeStudent/{student_id}', "ClasseController@re
 
 Route::get('/Presence',"PresenceController@index")->name('Presence')->middleware('auth');
 Route::get('/SuiviPresence',"PresenceController@SuiviPresence")->name('SuiviPresence')->middleware('auth');
+Route::get("/SetSeancePresence", "ajaxcontroller@SetSeancePresence")->name("SetSeancePresence")->middleware('auth');
 
 Route::get("/GetClasseStudentsAndPresencesInSeance", "ajaxcontroller@GetClasseStudentsAndPresencesInSeance")->name("GetClasseStudentsAndPresencesInSeance")->middleware('auth');
 Route::get("/getPlanningClasse", "ajaxcontroller@getPlanningClasse")->name("getPlanningClasse")->middleware('auth');
@@ -75,7 +76,6 @@ Route::get("/editSeance", "ajaxcontroller@editSeance")->name("editSeance")->midd
 Route::get("/deleteSeance", "ajaxcontroller@deleteSeance")->name("deleteSeance")->middleware('auth');
 Route::get("/getSeance", "ajaxcontroller@getSeance")->name("getSeance")->middleware('auth');
 Route::get("/GetClasseStudents", "ajaxcontroller@GetClasseStudents")->name("GetClasseStudents")->middleware('auth');
-Route::get("/SetSeancePresence", "ajaxcontroller@SetSeancePresence")->name("SetSeancePresence")->middleware('auth');
 
 
 route::get("/link", function () {

@@ -14,4 +14,6 @@ class Student extends Model
     public function Classe(){
         return $this->belongsTo("App\Classe");
     }
+
+    
 }

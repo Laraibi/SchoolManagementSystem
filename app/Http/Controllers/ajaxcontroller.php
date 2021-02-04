@@ -276,6 +276,7 @@ class ajaxcontroller extends Controller
             $seanceid=$request->SeanceID;
             $students=$request->StudentsData;
             $infos=array();
+
             foreach($students as $student){
                 $Presence=new Presence();
                 $Presence->Seance_id=$seanceid;
@@ -284,7 +285,7 @@ class ajaxcontroller extends Controller
                 $Presence->EtatRetard=$student['EtatRetard']=="true"?1:0;
                 $Presence->MinutesRetard=$student['TempsRetard']?$student['TempsRetard']:0;
                 $Presence->save();
-                array_push($infos,$student['EtatPresence']);
+                array_push($infos,$student['id']);
             }
             return response()->json(["StudentsId"=>$infos]);
         }
