@@ -111,7 +111,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $(".nav-link").eq(0).addClass("active");
+            // $(".nav-link").eq(0).addClass("active");
 
             function setPieChart() {
                 var ctx = $("#myChart").get(0).getContext("2d");

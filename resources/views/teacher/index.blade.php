@@ -99,7 +99,7 @@
                 format: 'YYYY-MM-DD'
             });
             
-            $(".nav-link").eq(3).addClass("active");
+            // $(".nav-link").eq(3).addClass("active");
         });
 
     </script>

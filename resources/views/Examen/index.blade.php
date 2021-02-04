@@ -96,7 +96,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
            
-            $(".nav-link").eq(7).addClass("active");
+            // $(".nav-link").eq(7).addClass("active");
 
 
        

@@ -149,7 +149,7 @@ label i{
                 format: 'L',
                 format: 'YYYY-MM-DD'
             });
-            $(".nav-link").eq(1).addClass("active");
+            // $(".nav-link").eq(1).addClass("active");
         });
 
     </script>

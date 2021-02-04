@@ -444,7 +444,7 @@
 
             //Side Bar Active Item
 
-            $(".nav-link").eq(8).addClass("active");
+            // $(".nav-link").eq(8).addClass("active");
 
             // Form Classe and Select Ajax Opertations
 

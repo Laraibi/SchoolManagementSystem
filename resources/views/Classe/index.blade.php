@@ -238,7 +238,7 @@
         $(document).ready(function() {
             // alert('heloo');
 
-            $(".nav-link").eq(4).addClass("active");
+            // $(".nav-link").eq(4).addClass("active");
         });
 
     </script>

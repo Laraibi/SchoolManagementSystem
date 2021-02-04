@@ -287,27 +287,27 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                  <i class="nav-icon fas fa-table"></i>
-                                  <p>
-                                    Presence
-                                    <i class="fas fa-angle-left right"></i>
-                                  </p>
+                                    <i class="nav-icon fas fa-table"></i>
+                                    <p>
+                                        Presence
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                  <li class="nav-item">
-                                    <a href="{{ route('Presence') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Edition</p>
-                                    </a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a href="{{route('SuiviPresence')}}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Suivi</p>
-                                    </a>
-                                  </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('Presence') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Edition</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('SuiviPresence') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Suivi</p>
+                                        </a>
+                                    </li>
                                 </ul>
-                              </li>
+                            </li>
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -349,10 +349,7 @@
 
 
 
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
 
-    </script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- ChartJS -->
@@ -378,7 +375,33 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('dist/js/demo.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script>
+        // $.widget.bridge('uibutton', $.ui.button);
+        $(document).ready(function() {
+            // alert('Sms Document Ready');
+            var Menu = ['home',
+                'Students',
+                'StudentParents',
+                'Teachers',
+                'Classes',
+                'Matieres',
+                'Cours',
+                'Examens',
+                'Seances'
+            ];
+            for (i=0;i<Menu.length;i++){
+                console.log(('/'+Menu[i].toLowerCase()) +'//'+ window.location.pathname.toLowerCase());
+                if(('/'+Menu[i].toLowerCase())==window.location.pathname.toLowerCase()){
+                    console.log('donne');
+                    $('.sidebar .nav-link').removeClass('active');
+                    $('.sidebar .nav-link').eq(i).addClass('active');
+                //    alert( $('.sidebar .nav-link').eq(i).html());
 
+                }
+            }
+        });
+
+    </script>
     @yield('scripts');
 
 </body>
